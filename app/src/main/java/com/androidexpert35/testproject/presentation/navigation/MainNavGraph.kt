@@ -6,8 +6,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.androidexpert35.testproject.domain.entity.Item
-import com.androidexpert35.testproject.presentation.ui.screen.DetailScreen
-import com.androidexpert35.testproject.presentation.ui.screen.MasterScreen
+import com.androidexpert35.testproject.presentation.ui.screen.itemdetail.DetailScreen
+import com.androidexpert35.testproject.presentation.ui.screen.master.MasterScreen
 import com.androidexpert35.testproject.presentation.viewmodel.MasterViewModel
 
 @Composable

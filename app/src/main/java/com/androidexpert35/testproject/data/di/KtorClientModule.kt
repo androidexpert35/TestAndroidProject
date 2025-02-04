@@ -1,4 +1,4 @@
-package com.androidexpert35.testproject.presentation.di
+package com.androidexpert35.testproject.data.di
 
 import android.util.Log
 import dagger.Module

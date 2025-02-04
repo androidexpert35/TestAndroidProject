@@ -1,4 +1,4 @@
-package com.androidexpert35.testproject.presentation
+package com.androidexpert35.testproject.presentation.activity
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity

@@ -90,4 +90,7 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.gson)
     implementation(libs.ktor.client.logging)
+
+    // System UI
+    implementation(libs.accompanist.systemuicontroller)
 }
