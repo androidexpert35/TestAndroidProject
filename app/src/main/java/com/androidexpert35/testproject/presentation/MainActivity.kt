@@ -1,33 +1,31 @@
-package com.androidexpert35.testproject
+package com.androidexpert35.testproject.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.androidexpert35.testproject.ui.theme.TestProjectTheme
+import androidx.navigation.compose.rememberNavController
+import com.androidexpert35.testproject.presentation.navigation.MainNavGraph
+import com.androidexpert35.testproject.presentation.theme.TestProjectTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            TestProjectTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+            AppContent()
         }
     }
+}
+
+@Composable
+fun AppContent() {
+    val navController = rememberNavController()
+    MainNavGraph(navController)
 }
 
 @Composable

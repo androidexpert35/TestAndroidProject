@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("com.google.devtools.ksp")
+    id("kotlin-parcelize")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -81,4 +83,11 @@ dependencies {
     //Pull to refresh
     implementation(libs.androidx.material)
     implementation(libs.accompanist.swiperefresh)
+
+    // Ktor
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.gson)
+    implementation(libs.ktor.client.logging)
 }

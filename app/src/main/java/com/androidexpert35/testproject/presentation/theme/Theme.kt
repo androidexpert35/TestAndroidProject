@@ -1,4 +1,4 @@
-package com.androidexpert35.testproject.ui.theme
+package com.androidexpert35.testproject.presentation.theme
 
 import android.app.Activity
 import android.os.Build
