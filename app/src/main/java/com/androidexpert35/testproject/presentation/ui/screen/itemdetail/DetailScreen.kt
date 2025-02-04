@@ -1,12 +1,7 @@
 package com.androidexpert35.testproject.presentation.ui.screen.itemdetail
 
-import android.content.Context
 import androidx.compose.material.icons.filled.Done
 import com.androidexpert35.testproject.domain.entity.Item
-import android.graphics.Bitmap
-import android.graphics.pdf.PdfRenderer
-import android.os.ParcelFileDescriptor
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,51 +29,34 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.net.URL
 import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.collectAsState
+import com.androidexpert35.testproject.presentation.viewmodel.DetailViewModel
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(item: Item) {
+fun DetailScreen(
+    item: Item,
+    viewModel: DetailViewModel
+) {
     val systemUiController = rememberSystemUiController()
     systemUiController.setStatusBarColor(
         color = MaterialTheme.colorScheme.primary
     )
-    var pdfBitmaps by remember { mutableStateOf<List<Bitmap>>(emptyList()) }
-    var isLoading by remember { mutableStateOf(false) }
-    var error by remember { mutableStateOf<String?>(null) }
+    val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(item.mediaUrl) {
         if (item.mediaType == "pdf") {
-            isLoading = true
-            error = null
-            try {
-                pdfBitmaps = loadPdfFromUrl(item.mediaUrl, context)
-            } catch (e: IOException) {
-                error = "Failed to load PDF: ${e.message}"
-            } finally {
-                isLoading = false
-            }
+            viewModel.loadPdf(item.mediaUrl, context)
         }
     }
 
@@ -88,14 +66,8 @@ fun DetailScreen(item: Item) {
                 title = {
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp) // Add spacing between icon and text
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
-                        Icon(
-                            imageVector = Icons.Filled.Done,
-                            contentDescription = "PDF Icon",
-                            tint = Color.White,
-                            modifier = Modifier.size(24.dp)
-                        )
                         Text(
                             text = "PDF Viewer",
                             color = Color.White,
@@ -161,14 +133,14 @@ fun DetailScreen(item: Item) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            if (isLoading) {
+            if (uiState.isLoading) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
                 }
-            } else if (error != null) {
+            } else if (uiState.error != null) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                     Text(
-                        text = error ?: "An unknown error occurred",
+                        text = uiState.error ?: "An unknown error occurred",
                         color = MaterialTheme.colorScheme.error,
                         style = MaterialTheme.typography.bodyLarge
                     )
@@ -178,7 +150,7 @@ fun DetailScreen(item: Item) {
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
-                    itemsIndexed(pdfBitmaps) { index, bitmap ->
+                    itemsIndexed(uiState.pdfBitmaps) { index, bitmap ->
                         PdfPageItem(bitmap = bitmap, pageNumber = index + 1)
                     }
                 }
@@ -193,72 +165,4 @@ fun DetailScreen(item: Item) {
             }
         }
     }
-}
-
-@Composable
-fun PdfPageItem(bitmap: Bitmap, pageNumber: Int) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-        shape = RoundedCornerShape(8.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
-    ) {
-        Column(modifier = Modifier.padding(8.dp)) {
-            Image(
-                bitmap = bitmap.asImageBitmap(),
-                contentDescription = "Page $pageNumber",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(8.dp)),
-                contentScale = ContentScale.Fit
-            )
-            Spacer(modifier = Modifier.height(4.dp))
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Page $pageNumber",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        }
-    }
-}
-
-suspend fun loadPdfFromUrl(url: String, context: Context): List<Bitmap> = withContext(Dispatchers.IO) {
-
-    val urlConnection = URL(url).openConnection()
-    urlConnection.connect()
-    val inputStream = urlConnection.getInputStream()
-
-    val tempFile = File.createTempFile("temp_pdf", ".pdf", context.cacheDir)
-    val outputStream = FileOutputStream(tempFile)
-
-    inputStream.use { input ->
-        outputStream.use { output ->
-            input.copyTo(output)
-        }
-    }
-
-    val fileDescriptor = ParcelFileDescriptor.open(tempFile, ParcelFileDescriptor.MODE_READ_ONLY)
-    val pdfRenderer = PdfRenderer(fileDescriptor)
-
-    val bitmaps = mutableListOf<Bitmap>()
-    for (i in 0 until pdfRenderer.pageCount) {
-        val page = pdfRenderer.openPage(i)
-        val bitmap = Bitmap.createBitmap(page.width, page.height, Bitmap.Config.ARGB_8888)
-        page.render(bitmap, null, null, PdfRenderer.Page.RENDER_MODE_FOR_DISPLAY)
-        bitmaps.add(bitmap)
-        page.close()
-    }
-
-    pdfRenderer.close()
-    tempFile.delete()
-
-    return@withContext bitmaps
 }

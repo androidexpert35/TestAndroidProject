@@ -23,7 +23,7 @@ fun MainNavGraph(navController: NavHostController, viewModel: MasterViewModel = 
         composable("detail") {
             val item = navController.previousBackStackEntry?.savedStateHandle?.get<Item>("item")
             if (item != null) {
-                DetailScreen(item = item)
+                DetailScreen(item = item, viewModel = hiltViewModel())
             } else {
                 // Handle the case where the item is not found
             }

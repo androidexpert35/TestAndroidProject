@@ -1,7 +1,6 @@
 package com.androidexpert35.testproject.data.remote
 
 import android.util.Log
-import com.androidexpert35.testproject.domain.ApiResponse
 import com.androidexpert35.testproject.domain.entity.Item
 import com.androidexpert35.testproject.domain.entity.MediaDate
 import io.ktor.client.HttpClient
