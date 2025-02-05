@@ -1,4 +1,4 @@
-package com.androidexpert35.testproject.presentation.activity
+package com.androidexpert35.testproject.presentation.view
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.androidexpert35.testproject.presentation.navigation.MainNavGraph
-import com.androidexpert35.testproject.presentation.theme.TestProjectTheme
+import com.androidexpert35.testproject.presentation.ui.theme.TestProjectTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

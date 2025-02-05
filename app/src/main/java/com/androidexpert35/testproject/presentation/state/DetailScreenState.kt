@@ -1,4 +1,4 @@
-package com.androidexpert35.testproject.domain.entity
+package com.androidexpert35.testproject.presentation.state
 
 import android.graphics.Bitmap
 

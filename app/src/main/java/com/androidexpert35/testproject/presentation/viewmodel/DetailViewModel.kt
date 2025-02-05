@@ -3,7 +3,7 @@ package com.androidexpert35.testproject.presentation.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.androidexpert35.testproject.domain.entity.DetailScreenState
+import com.androidexpert35.testproject.presentation.state.DetailScreenState
 import com.androidexpert35.testproject.domain.usecase.LoadPdfUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

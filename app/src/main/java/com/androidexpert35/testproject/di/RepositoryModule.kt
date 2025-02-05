@@ -1,4 +1,4 @@
-package com.androidexpert35.testproject.data.di
+package com.androidexpert35.testproject.di
 
 import com.androidexpert35.testproject.data.repository.ItemRepositoryImpl
 import com.androidexpert35.testproject.domain.repository.ItemRepository

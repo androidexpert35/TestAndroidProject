@@ -1,4 +1,4 @@
-package com.androidexpert35.testproject.presentation.theme
+package com.androidexpert35.testproject.presentation.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

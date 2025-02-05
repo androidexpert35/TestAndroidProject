@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.androidexpert35.testproject.domain.entity.DetailScreenState
+import com.androidexpert35.testproject.presentation.state.DetailScreenState
 import com.androidexpert35.testproject.domain.entity.Item
 import com.androidexpert35.testproject.presentation.ui.screen.ErrorScreen
 import com.androidexpert35.testproject.presentation.ui.screen.LoadingScreen
