@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TestProject</string>
+    <string name="error_detail">Error showing detail</string>
+    <string name="news_list">Latest news</string>
 </resources>
