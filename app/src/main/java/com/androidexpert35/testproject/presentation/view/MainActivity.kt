@@ -17,7 +17,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            AppContent()
+            TestProjectTheme {
+                AppContent()
+            }
         }
     }
 }
@@ -26,20 +28,4 @@ class MainActivity : ComponentActivity() {
 fun AppContent() {
     val navController = rememberNavController()
     MainNavGraph(navController)
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TestProjectTheme {
-        Greeting("Android")
-    }
 }

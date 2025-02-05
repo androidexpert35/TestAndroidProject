@@ -11,6 +11,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.androidexpert35.testproject.R
 import com.androidexpert35.testproject.domain.entity.Item
 import com.androidexpert35.testproject.presentation.intent.MasterIntent
 import com.androidexpert35.testproject.presentation.state.MasterState
@@ -30,7 +33,7 @@ fun MasterScreen(viewModel: MasterViewModel, onItemClick: (Item) -> Unit) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Master List") },
+                title = { Text(stringResource(R.string.news_list)) },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     titleContentColor = MaterialTheme.colorScheme.primary
