@@ -16,7 +16,7 @@ import com.androidexpert35.testproject.presentation.viewmodel.MasterViewModel
 
 @Composable
 fun MainNavGraph(navController: NavHostController, viewModel: MasterViewModel = hiltViewModel()) {
-    NavHost(navController = navController, startDestination = "master") {
+    NavHost(navController = navController, startDestination = Screen.Home.route) {
         composable(Screen.Home.route) {
             MasterScreen(viewModel) { item ->
                 // Navigate to detail screen with item data
